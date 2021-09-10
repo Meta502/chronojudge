@@ -42,7 +42,7 @@ const Home: NextPage = () => {
 
   const handleMultiSubmit = (result: any) => {
     setResult({
-      message: "ChronoJudge is in multi test case mode.",
+      message: "",
       output: {
         stdout: result
           .map(
