@@ -13,6 +13,8 @@ import RunStatus from "../components/RunStatus";
 import onSubmit from "../components/handlers/onSubmit";
 import getAllTestcases from "../components/handlers/getAllTestcases";
 
+import onMultiSubmit from "../components/handlers/onMultiSubmit";
+
 const baseUrl =
   "https://raw.githubusercontent.com/Meta502/chronojudge/main/problem_sets";
 
@@ -32,6 +34,23 @@ const Home: NextPage = () => {
 
   const [input, setInput] = React.useState("");
   const [output, setOutput] = React.useState("");
+  const [allTestCases, setAllTestCases] = React.useState({
+    input: [],
+    output: [],
+  });
+
+  const handleMultiSubmit = (result: any) => {
+    setResult({
+      message: "ChronoJudge is in multi test case mode.",
+      output: {
+        stdout: result
+          .map(
+            (item: any, index: number) => `TC #${index + 1}: ${item?.message}`
+          )
+          .join("\n"),
+      },
+    });
+  };
 
   React.useEffect(() => {
     const code = localStorage.getItem("lastCode");
@@ -80,10 +99,11 @@ const Home: NextPage = () => {
   }, [code]);
 
   React.useEffect(() => {
-    if (multiSubmit)
+    if (multiSubmit) {
       getAllTestcases(currentProblemSet, String(testCases.length)).then(
-        (items) => console.log(items)
+        (items: any) => setAllTestCases(items)
       );
+    }
   }, [multiSubmit, currentProblemSet, testCases.length]);
 
   return (
@@ -144,7 +164,12 @@ const Home: NextPage = () => {
                 maxHeight: "16rem",
                 borderRadius: "0.5rem",
               }}
-              value={input}
+              readOnly={multiSubmit}
+              value={
+                multiSubmit
+                  ? "ChronoJudge is in multi-submit mode. Input is currently locked."
+                  : input
+              }
               onChange={(e) => setInput(e)}
             />
           </div>
@@ -162,9 +187,15 @@ const Home: NextPage = () => {
             />
           </div>
         </div>
-        <RunStatus result={result} />
+        <RunStatus multiSubmit={multiSubmit} result={result} />
         <div className="mt-2 max-w-5xl w-full mx-auto flex justify-end">
-          <Button onClick={() => onSubmit(input, output, code, setResult)}>
+          <Button
+            onClick={
+              multiSubmit
+                ? () => onMultiSubmit(allTestCases, code, handleMultiSubmit)
+                : () => onSubmit(input, output, code, setResult)
+            }
+          >
             Submit
           </Button>
         </div>

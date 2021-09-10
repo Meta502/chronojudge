@@ -26,10 +26,10 @@ const getAllTestcases = async (problemSet: string, numberOfCases: string) => {
     }
   );
 
-  const inputs = await Promise.all(inputRequests);
-  const outputs = await Promise.all(outputRequests);
+  const input = await Promise.all(inputRequests);
+  const output = await Promise.all(outputRequests);
 
-  return { inputs, outputs };
+  return { input, output };
 };
 
 export default getAllTestcases;
