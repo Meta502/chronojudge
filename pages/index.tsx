@@ -1,10 +1,15 @@
 import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
+
 import React from "react";
 import dynamic from "next/dynamic";
 
-import { Button, Select } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
+
+import Chronos from "../components/Chronos";
+import Dropdown from "../components/Dropdown";
+import RunStatus from "../components/RunStatus";
+
+import onSubmit from "../components/handlers/onSubmit";
 
 const baseUrl =
   "https://raw.githubusercontent.com/Meta502/chronojudge/main/problem_sets";
@@ -12,18 +17,6 @@ const baseUrl =
 const Editor = dynamic(import("../components/Editor"), {
   ssr: false,
 });
-
-const Status: React.FC<{ value: string }> = ({ value }) => {
-  return (
-    <span
-      className={`${(value === "WA" || value === "TLE") && "text-red-500"} ${
-        value === "AC" && "text-green-500"
-      }`}
-    >
-      {value}
-    </span>
-  );
-};
 
 const Home: NextPage = () => {
   const [code, setCode] = React.useState("");
@@ -38,13 +31,16 @@ const Home: NextPage = () => {
   const [output, setOutput] = React.useState("");
 
   React.useEffect(() => {
+    const code = localStorage.getItem("lastCode");
     fetch(`${baseUrl}/index.txt`)
       .then((res) => res.text())
       .then((text) => setProblemSets(text.split("\n")));
+    if (code) setCode(code);
   }, []);
 
   React.useEffect(() => {
     if (currentProblemSet) {
+      setTestCases([]);
       fetch(`${baseUrl}/${currentProblemSet}/num.txt`, { cache: "no-cache" })
         .then((res) => res.text())
         .then((item: string) => {
@@ -74,67 +70,46 @@ const Home: NextPage = () => {
         .then((res) => res.text())
         .then((text) => setOutput(text));
     }
-  }, [currentTestCase]);
+  }, [currentTestCase, currentProblemSet]);
 
-  const onSubmit = () => {
-    setResult({});
-    fetch("http://localhost:3006/code/submit", {
-      method: "POST",
-      body: JSON.stringify({
-        code,
-        input,
-        output,
-      }),
-      headers: new Headers({
-        "Content-Type": "application/json",
-      }),
-    })
-      .then((item) => item.json())
-      .then((item) => setResult(item));
-  };
+  React.useEffect(() => {
+    localStorage.setItem("lastCode", code);
+  }, [code]);
 
   return (
-    <div className="flex flex-col justify-center bg-gray-800 min-h-screen w-full h-full py-16">
+    <div
+      className="flex flex-col justify-center min-h-screen w-full h-full py-16"
+      style={{ backgroundColor: "#181818" }}
+    >
+      <div className="w-full mx-auto max-w-5xl flex items-center justify-center mb-4">
+        <Chronos />
+        <h1 className="font-bold text-2xl ml-4">ChronoJudge</h1>
+      </div>
+
       <div className="w-full mx-auto max-w-5xl">
         <h1 className="text-white font-bold mb-2">Enter your code here</h1>
         <Editor
           mode="java"
           style={{ width: "100%" }}
           onChange={(code) => setCode(code)}
+          value={code}
         />
       </div>
       <div className="w-full mx-auto max-w-5xl mb-4 flex justify-between mt-2">
-        <div className="w-64">
-          <h1 className="text-white font-bold mb-2">Problem Set</h1>
-          <Select
-            placeholder="Select a problem set."
-            size="md"
-            variant="outline bg-white"
-            onChange={(e) => setCurrentProblemSet(e.target.value)}
-          >
-            {problemSets.map((item: string) => (
-              <option key={item} value={item}>
-                {item}
-              </option>
-            ))}
-          </Select>
-        </div>
-        <div className="w-64">
-          <h1 className="text-white font-bold mb-2">Test Case</h1>
-          <Select
-            placeholder="Select a testcase."
-            size="md"
-            variant="outline bg-gray-500"
-            onChange={(e) => setCurrentTestCase(e.target.value)}
-            value={currentTestCase}
-          >
-            {testCases.map((item: string) => (
-              <option key={item} value={item}>
-                Testcase {item}
-              </option>
-            ))}
-          </Select>
-        </div>
+        <Dropdown
+          title="Problem Set"
+          options={problemSets}
+          current={currentProblemSet}
+          setCurrent={setCurrentProblemSet}
+          placeholder="Select a problem set."
+        />
+        <Dropdown
+          title="Test Case"
+          options={testCases}
+          current={currentTestCase}
+          setCurrent={setCurrentTestCase}
+          placeholder="Select a testcase."
+        />
       </div>
       <div className="grid grid-cols-2 gap-x-8 w-full mx-auto max-w-5xl mt-2">
         <div>
@@ -152,17 +127,15 @@ const Home: NextPage = () => {
             className="overflow-auto"
             style={{ width: "100%", maxHeight: "16rem" }}
             value={result?.output?.stdout}
+            readOnly={true}
           />
         </div>
       </div>
-      <div className="w-full mx-auto max-w-5xl mt-2 flex justify-between mb-2">
-        <p className="text-white font-bold">
-          Status: <Status value={result?.message} />
-        </p>
-        <p className="text-white font-bold">Time: {result?.output?.time}ms</p>
-      </div>
+      <RunStatus result={result} />
       <div className="mt-2 max-w-5xl w-full mx-auto flex justify-end">
-        <Button onClick={onSubmit}>Submit</Button>
+        <Button onClick={() => onSubmit(input, output, code, setResult)}>
+          Submit
+        </Button>
       </div>
     </div>
   );
