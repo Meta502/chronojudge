@@ -130,7 +130,7 @@ const Home: NextPage = () => {
           >
             {testCases.map((item: string) => (
               <option key={item} value={item}>
-                {item}
+                Testcase {item}
               </option>
             ))}
           </Select>
@@ -138,7 +138,7 @@ const Home: NextPage = () => {
       </div>
       <div className="grid grid-cols-2 gap-x-8 w-full mx-auto max-w-5xl mt-2">
         <div>
-          <h1 className="text-white font-bold">Input:</h1>
+          <h1 className="text-white font-bold">Program Input:</h1>
           <Editor
             className="overflow-auto"
             style={{ width: "100%", maxHeight: "16rem" }}
@@ -147,7 +147,7 @@ const Home: NextPage = () => {
           />
         </div>
         <div>
-          <h1 className="text-white font-bold">Output:</h1>
+          <h1 className="text-white font-bold">Program Output:</h1>
           <Editor
             className="overflow-auto"
             style={{ width: "100%", maxHeight: "16rem" }}

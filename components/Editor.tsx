@@ -4,7 +4,7 @@ import "ace-builds/src-noconflict/mode-java";
 import "ace-builds/src-noconflict/theme-twilight";
 
 const Editor: React.FC<IAceEditorProps> = (props: IAceEditorProps) => (
-  <AceEditor {...props} />
+  <AceEditor theme="twilight" {...props} />
 );
 
 export default Editor;
