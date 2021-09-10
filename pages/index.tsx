@@ -40,11 +40,12 @@ const Home: NextPage = () => {
 
   React.useEffect(() => {
     if (currentProblemSet) {
-      fetch(`${baseUrl}/${currentProblemSet}/num.txt`)
+      fetch(`${baseUrl}/${currentProblemSet}/num.txt`, { cache: "no-cache" })
         .then((res) => res.text())
         .then(
           (item: string) =>
-            item.length &&
+            // @ts-ignore
+            !isNaN(item) &&
             setTestCases(
               [...new Array(Number(item))].map(
                 (item: any, index: number) => index + 1
@@ -52,7 +53,7 @@ const Home: NextPage = () => {
             )
         );
     }
-  }, []);
+  }, [currentProblemSet]);
 
   const onSubmit = () => {
     fetch("http://localhost:3006/code/submit", {
@@ -73,7 +74,7 @@ const Home: NextPage = () => {
   return (
     <div className="flex flex-col justify-center bg-gray-800 min-h-screen w-full h-full">
       <div className="w-full mx-auto max-w-5xl">
-        <h1 className="text-white font-bold">Enter your code here</h1>
+        <h1 className="text-white font-bold mb-2">Enter your code here</h1>
         <Editor
           mode="java"
           style={{ width: "100%" }}
