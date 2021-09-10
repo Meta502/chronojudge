@@ -137,7 +137,7 @@ const Home: NextPage = () => {
             Check all testcases.
           </Checkbox>
         </div>
-        <div className="w-full mx-auto max-w-5xl mb-4 flex flex-col md:flex-row justify-between items-center mt-2 space-y-4 md:space-y-0">
+        <div className="w-full mx-auto max-w-5xl mb-4 flex flex-col md:flex-row justify-between items-center h-full mt-2 space-y-4 md:space-y-0">
           <Dropdown
             title="Problem Set"
             options={problemSets}
