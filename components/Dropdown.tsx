@@ -9,7 +9,7 @@ const Dropdown: React.FC<{
   placeholder: string;
 }> = ({ current, setCurrent, options, title, placeholder }) => {
   return (
-    <div className="w-64">
+    <div className="w-full md:w-64">
       <h1 className="text-white font-bold mb-2">{title}</h1>
       <Select
         placeholder={placeholder}

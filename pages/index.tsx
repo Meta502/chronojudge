@@ -115,7 +115,7 @@ const Home: NextPage = () => {
         <link rel="icon" type="image/png" href="/logo.png" />
       </Head>
       <div
-        className="flex flex-col justify-center min-h-screen w-full h-full py-16"
+        className="flex flex-col justify-center min-h-screen w-full h-full py-16 px-6 md:px-0"
         style={{ backgroundColor: "#181818" }}
       >
         <div className="w-full mx-auto max-w-5xl flex items-center justify-center mb-4">
@@ -137,7 +137,7 @@ const Home: NextPage = () => {
             Check all testcases.
           </Checkbox>
         </div>
-        <div className="w-full mx-auto max-w-5xl mb-4 flex justify-between items-center mt-2">
+        <div className="w-full mx-auto max-w-5xl mb-4 flex flex-col md:flex-row justify-between items-center mt-2 space-y-4 md:space-y-0">
           <Dropdown
             title="Problem Set"
             options={problemSets}
@@ -154,10 +154,10 @@ const Home: NextPage = () => {
               placeholder="Select a testcase."
             />
           ) : (
-            "Checking code against all testcases."
+            <p>Checking code against all testcases.</p>
           )}
         </div>
-        <div className="grid grid-cols-2 gap-x-8 w-full mx-auto max-w-5xl mt-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 space-y-4 md:space-y-0 gap-x-8 w-full mx-auto max-w-5xl mt-2">
           <div>
             <h1 className="text-white font-bold mb-2">Program Input:</h1>
             <Editor
