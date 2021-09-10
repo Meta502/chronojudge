@@ -154,7 +154,17 @@ const Home: NextPage = () => {
               placeholder="Select a testcase."
             />
           ) : (
-            <p>Checking code against all testcases.</p>
+            <div>
+              <p>Checking code against all testcases.</p>
+              <a
+                href="https://github.com/Meta502/chronojudge/tree/main/problem_sets"
+                className="hover:underline font-bold"
+                target="_blank"
+                rel="noreferrer"
+              >
+                View Test Cases
+              </a>
+            </div>
           )}
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 space-y-4 md:space-y-0 gap-x-8 w-full mx-auto max-w-5xl mt-2">
