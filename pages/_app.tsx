@@ -7,6 +7,8 @@ import {
   ColorModeOptions,
 } from "@chakra-ui/react";
 
+import { Toaster } from "react-hot-toast";
+
 const config = {
   initialColorMode: "dark",
   useSystemColorMode: false,
@@ -14,11 +16,14 @@ const config = {
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider>
-      <ColorModeProvider options={config}>
-        <Component {...pageProps} />
-      </ColorModeProvider>
-    </ChakraProvider>
+    <>
+      <Toaster position="bottom-left" />
+      <ChakraProvider>
+        <ColorModeProvider options={config}>
+          <Component {...pageProps} />
+        </ColorModeProvider>
+      </ChakraProvider>
+    </>
   );
 }
 export default MyApp;
