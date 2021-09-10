@@ -5,7 +5,12 @@ const onMultiSubmit = (
   code: string,
   setResult: (a: any) => void
 ) => {
-  if (!cases.input.length || !cases.output.length) {
+  if (
+    !cases.input.length ||
+    !cases.output.length ||
+    cases.input.some((item) => item === null || item === undefined) ||
+    cases.output.some((item) => item === null || item === undefined)
+  ) {
     window.alert("Please choose a problem set.");
     return;
   }

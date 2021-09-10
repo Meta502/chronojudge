@@ -7,10 +7,14 @@ const getAllTestcases = async (problemSet: string, numberOfCases: string) => {
       return fetch(`${baseUrl}/${problemSet}/in${index + 1}.txt`, {
         cache: "no-cache",
       })
-        .then((res) => res.text())
+        .then((res) => {
+          if (res.status === 404) throw Error();
+          return res.text();
+        })
         .then((item: string) => {
           return item;
-        });
+        })
+        .catch(() => undefined);
     }
   );
 
@@ -19,10 +23,14 @@ const getAllTestcases = async (problemSet: string, numberOfCases: string) => {
       return fetch(`${baseUrl}/${problemSet}/output${index + 1}.txt`, {
         cache: "no-cache",
       })
-        .then((res) => res.text())
+        .then((res) => {
+          if (res.status === 404) throw Error();
+          return res.text();
+        })
         .then((item: string) => {
           return item;
-        });
+        })
+        .catch(() => undefined);
     }
   );
 
