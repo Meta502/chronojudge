@@ -11,7 +11,13 @@ const onMultiSubmit = (
     cases.input.some((item) => item === null || item === undefined) ||
     cases.output.some((item) => item === null || item === undefined)
   ) {
-    window.alert("Please choose a problem set.");
+    toast.error("Please choose a valid problem set.", {
+      style: {
+        borderRadius: "10px",
+        background: "#333",
+        color: "#fff",
+      },
+    });
     return;
   }
   toast.promise(

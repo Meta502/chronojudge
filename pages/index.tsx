@@ -112,6 +112,7 @@ const Home: NextPage = () => {
     <>
       <Head>
         <title>ChronoJudge</title>
+        <link rel="icon" type="image/png" href="/logo.png" />
       </Head>
       <div
         className="flex flex-col justify-center min-h-screen w-full h-full py-16"
