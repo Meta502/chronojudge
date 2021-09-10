@@ -5,7 +5,7 @@ const onMultiSubmit = (
   code: string,
   setResult: (a: any) => void
 ) => {
-  if (!("input" in cases) || !("output" in cases)) {
+  if (!cases.input.length || !cases.output.length) {
     window.alert("Please choose a problem set.");
     return;
   }
@@ -21,8 +21,12 @@ const onMultiSubmit = (
         "Content-Type": "application/json",
       }),
     })
-      .then((item) => item.json())
-      .then((item) => setResult(item)),
+      .then((item) => {
+        if (item.status === 404) throw Error();
+        return item.json();
+      })
+      .then((item) => setResult(item))
+      .catch(() => undefined),
     {
       loading: "Submitting...",
       success: "Finished testing your code!",

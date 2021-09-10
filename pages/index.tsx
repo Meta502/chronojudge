@@ -28,6 +28,7 @@ const Home: NextPage = () => {
   const [problemSets, setProblemSets] = React.useState<any>([]);
   const [testCases, setTestCases] = React.useState<any[]>([]);
   const [multiSubmit, setMultiSubmit] = React.useState(false);
+  const [submitting, setSubmitting] = React.useState(false);
 
   const [currentTestCase, setCurrentTestCase] = React.useState<any>();
   const [currentProblemSet, setCurrentProblemSet] = React.useState<any>("");
@@ -100,6 +101,7 @@ const Home: NextPage = () => {
 
   React.useEffect(() => {
     if (multiSubmit) {
+      setAllTestCases({ input: [], output: [] });
       getAllTestcases(currentProblemSet, String(testCases.length)).then(
         (items: any) => setAllTestCases(items)
       );
