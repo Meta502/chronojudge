@@ -4,7 +4,10 @@ import Image from "next/image";
 import React from "react";
 import dynamic from "next/dynamic";
 
-import { Button } from "@chakra-ui/react";
+import { Button, Select } from "@chakra-ui/react";
+
+const baseUrl =
+  "https://raw.githubusercontent.com/Meta502/chronojudge/main/problem_sets";
 
 const Editor = dynamic(import("../components/Editor"), {
   ssr: false,
@@ -23,11 +26,33 @@ const Status: React.FC<{ value: string }> = ({ value }) => {
 const Home: NextPage = () => {
   const [code, setCode] = React.useState("");
   const [result, setResult] = React.useState<any>({});
-  const [currentProblemSet, setCurrentProblemSet] = React.useState<any>({});
+  const [problemSets, setProblemSets] = React.useState<any>([]);
+  const [testCases, setTestCases] = React.useState<any>([]);
+
+  const [currentTestCase, setCurrentTestCase] = React.useState<any>();
+  const [currentProblemSet, setCurrentProblemSet] = React.useState<any>("");
 
   React.useEffect(() => {
-    console.log(code);
-  }, [code]);
+    fetch(`${baseUrl}/index.txt`)
+      .then((res) => res.text())
+      .then((text) => setProblemSets(text.split("\n")));
+  }, []);
+
+  React.useEffect(() => {
+    if (currentProblemSet) {
+      fetch(`${baseUrl}/${currentProblemSet}/num.txt`)
+        .then((res) => res.text())
+        .then(
+          (item: string) =>
+            item.length &&
+            setTestCases(
+              [...new Array(Number(item))].map(
+                (item: any, index: number) => index + 1
+              )
+            )
+        );
+    }
+  }, []);
 
   const onSubmit = () => {
     fetch("http://localhost:3006/code/submit", {
@@ -55,11 +80,43 @@ const Home: NextPage = () => {
           onChange={(code) => setCode(code)}
         />
       </div>
-      <div className="w-full mx-auto max-w-5xl mt-2 flex justify-between">
+      <div className="w-full mx-auto max-w-5xl mt-2 flex justify-between mb-2">
         <p className="text-white font-bold">
           Status: <Status value={result?.message} />
         </p>
         <p className="text-white font-bold">Time: {result?.output?.time}ms</p>
+      </div>
+      <div className="w-full mx-auto max-w-5xl mb-4 flex justify-between">
+        <div className="w-64">
+          <h1 className="text-white font-bold mb-2">Test Case</h1>
+          <Select
+            placeholder="Select a problem set."
+            size="md"
+            variant="outline bg-white"
+            onChange={(e) => setCurrentProblemSet(e.target.value)}
+          >
+            {problemSets.map((item: string) => (
+              <option key={item} value={item}>
+                {item}
+              </option>
+            ))}
+          </Select>
+        </div>
+        <div className="w-64">
+          <h1 className="text-white font-bold mb-2">Problem Set</h1>
+          <Select
+            placeholder="Select a testcase."
+            size="md"
+            variant="outline bg-white"
+            onChange={(e) => setCurrentTestCase(e.target.value)}
+          >
+            {testCases.map((item: string) => (
+              <option key={item} value={item}>
+                {item}
+              </option>
+            ))}
+          </Select>
+        </div>
       </div>
       <div className="grid grid-cols-2 gap-x-8 w-full mx-auto max-w-5xl mt-2">
         <div>
@@ -78,7 +135,7 @@ const Home: NextPage = () => {
           />
         </div>
       </div>
-      <div className="mt-2 max-w-5xl w-full mx-auto flex justify-end">
+      <div className="mt-2 max-w-5xl w-full mx-auto flex justify-center">
         <Button onClick={onSubmit}>Submit</Button>
       </div>
     </div>
