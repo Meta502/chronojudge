@@ -43,6 +43,7 @@ const Home: NextPage = () => {
 
   const [currentTestCase, setCurrentTestCase] = React.useState<any>();
   const [currentProblemSet, setCurrentProblemSet] = React.useState<any>("");
+  const [currentTimeLimit, setCurrentTimeLimit] = React.useState<any>(0);
 
   const [input, setInput] = React.useState("");
   const [output, setOutput] = React.useState("");
@@ -77,16 +78,16 @@ const Home: NextPage = () => {
   React.useEffect(() => {
     if (currentProblemSet) {
       setTestCases([]);
-      fetch(`${baseUrl}/${currentProblemSet}/num.txt`, { cache: "no-cache" })
-        .then((res) => res.text())
-        .then((item: string) => {
+      fetch(`${baseUrl}/${currentProblemSet}/num.json`, { cache: "no-cache" })
+        .then((res) => res.json())
+        .then((item: { numberOfCases: number; timeLimit: number }) => {
           // @ts-ignore
-          !isNaN(item) &&
-            setTestCases(
-              [...new Array(Number(item))].map(
-                (item: any, index: number) => index + 1
-              )
-            );
+          setTestCases(
+            [...new Array(Number(item.numberOfCases))].map(
+              (item: any, index: number) => index + 1
+            )
+          );
+          setCurrentTimeLimit(item.timeLimit);
           setCurrentTestCase("");
         });
     }
@@ -217,6 +218,7 @@ const Home: NextPage = () => {
                       onMultiSubmit(
                         allTestCases,
                         code,
+                        currentTimeLimit,
                         handleMultiSubmit,
                         setSubmitting
                       )

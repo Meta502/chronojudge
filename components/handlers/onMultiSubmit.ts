@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 const onMultiSubmit = (
   cases: { input: string[]; output: string[] },
   code: string,
+  timeLimit: number,
   setResult: (a: any) => void,
   setSubmitting: (a: boolean) => void
 ) => {
@@ -30,6 +31,7 @@ const onMultiSubmit = (
         code,
         input: cases.input,
         output: cases.output,
+        timeLimit,
       }),
       headers: new Headers({
         "Content-Type": "application/json",
