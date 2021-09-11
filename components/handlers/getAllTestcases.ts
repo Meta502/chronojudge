@@ -1,10 +1,11 @@
-const baseUrl =
-  "https://raw.githubusercontent.com/Meta502/chronojudge/main/problem_sets";
+import { pad } from "../../pages";
+
+const baseUrl = "https://raw.githubusercontent.com/Hzzkygcs/SDA/master";
 
 const getAllTestcases = async (problemSet: string, numberOfCases: string) => {
   const inputRequests = [...new Array(Number(numberOfCases))].map(
     (item, index) => {
-      return fetch(`${baseUrl}/${problemSet}/in${index + 1}.txt`, {
+      return fetch(`${baseUrl}/${problemSet}/in_${pad(index, 2)}.txt`, {
         cache: "no-cache",
       })
         .then((res) => {
@@ -20,7 +21,7 @@ const getAllTestcases = async (problemSet: string, numberOfCases: string) => {
 
   const outputRequests = [...new Array(Number(numberOfCases))].map(
     (item, index) => {
-      return fetch(`${baseUrl}/${problemSet}/output${index + 1}.txt`, {
+      return fetch(`${baseUrl}/${problemSet}/out_${pad(index, 2)}.txt`, {
         cache: "no-cache",
       })
         .then((res) => {

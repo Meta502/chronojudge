@@ -17,8 +17,7 @@ import onMultiSubmit from "../components/handlers/onMultiSubmit";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 
-const baseUrl =
-  "https://raw.githubusercontent.com/Meta502/chronojudge/main/problem_sets";
+const baseUrl = "https://raw.githubusercontent.com/Hzzkygcs/SDA/master/";
 
 const Editor = dynamic(import("../components/Editor"), {
   ssr: false,
@@ -27,6 +26,12 @@ const Editor = dynamic(import("../components/Editor"), {
 const JavaEditor = dynamic(import("../components/JavaEditor"), {
   ssr: false,
 });
+
+export function pad(num: number, size: number) {
+  let numString = num.toString();
+  while (numString.length < size) numString = "0" + numString;
+  return numString;
+}
 
 const Home: NextPage = () => {
   const [code, setCode] = React.useState("");
@@ -89,15 +94,21 @@ const Home: NextPage = () => {
 
   React.useEffect(() => {
     if (currentProblemSet && currentTestCase) {
-      fetch(`${baseUrl}/${currentProblemSet}/in${currentTestCase}.txt`, {
-        cache: "no-cache",
-      })
+      fetch(
+        `${baseUrl}/${currentProblemSet}/in_${pad(currentTestCase, 2)}.txt`,
+        {
+          cache: "no-cache",
+        }
+      )
         .then((res) => res.text())
         .then((text) => setInput(text));
 
-      fetch(`${baseUrl}/${currentProblemSet}/output${currentTestCase}.txt`, {
-        cache: "no-cache",
-      })
+      fetch(
+        `${baseUrl}/${currentProblemSet}/out_${pad(currentTestCase, 2)}.txt`,
+        {
+          cache: "no-cache",
+        }
+      )
         .then((res) => res.text())
         .then((text) => setOutput(text));
     }
