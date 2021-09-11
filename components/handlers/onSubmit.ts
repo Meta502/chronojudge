@@ -4,7 +4,8 @@ const onSubmit = (
   input: string,
   output: string,
   code: string,
-  setResult: (a: any) => void
+  setResult: (a: any) => void,
+  setSubmitting: (a: boolean) => void
 ) => {
   if (
     input === "" ||
@@ -18,8 +19,9 @@ const onSubmit = (
   setResult({
     message: "Loading...",
   });
+  setSubmitting(true);
   toast.promise(
-    fetch("http://localhost:3006/code/submit", {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/code/submit`, {
       method: "POST",
       body: JSON.stringify({
         code,
@@ -31,7 +33,8 @@ const onSubmit = (
       }),
     })
       .then((item) => item.json())
-      .then((item) => setResult(item)),
+      .then((item) => setResult(item))
+      .finally(() => setSubmitting(false)),
     {
       loading: "Submitting...",
       success: "Finished testing your code!",

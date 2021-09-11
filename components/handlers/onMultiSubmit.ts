@@ -3,7 +3,8 @@ import toast from "react-hot-toast";
 const onMultiSubmit = (
   cases: { input: string[]; output: string[] },
   code: string,
-  setResult: (a: any) => void
+  setResult: (a: any) => void,
+  setSubmitting: (a: boolean) => void
 ) => {
   if (
     !cases.input.length ||
@@ -20,8 +21,10 @@ const onMultiSubmit = (
     });
     return;
   }
+
+  setSubmitting(true);
   toast.promise(
-    fetch("http://localhost:3006/code/multi", {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/code/multi`, {
       method: "POST",
       body: JSON.stringify({
         code,
@@ -37,6 +40,7 @@ const onMultiSubmit = (
         return item.json();
       })
       .then((item) => setResult(item))
+      .finally(() => setSubmitting(false))
       .catch(() => undefined),
     {
       loading: "Submitting...",

@@ -4,7 +4,7 @@ import React from "react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 
-import { Button, Checkbox } from "@chakra-ui/react";
+import { Button, Checkbox, Kbd } from "@chakra-ui/react";
 
 import Chronos from "../components/Chronos";
 import Dropdown from "../components/Dropdown";
@@ -14,11 +14,17 @@ import onSubmit from "../components/handlers/onSubmit";
 import getAllTestcases from "../components/handlers/getAllTestcases";
 
 import onMultiSubmit from "../components/handlers/onMultiSubmit";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
 
 const baseUrl =
   "https://raw.githubusercontent.com/Meta502/chronojudge/main/problem_sets";
 
 const Editor = dynamic(import("../components/Editor"), {
+  ssr: false,
+});
+
+const JavaEditor = dynamic(import("../components/JavaEditor"), {
   ssr: false,
 });
 
@@ -52,6 +58,8 @@ const Home: NextPage = () => {
       },
     });
   };
+
+  // TODO: Migrate to SWR to simplify hooks.
 
   React.useEffect(() => {
     const code = localStorage.getItem("lastCode");
@@ -118,20 +126,8 @@ const Home: NextPage = () => {
         className="flex flex-col justify-center min-h-screen w-full h-full py-16 px-6 md:px-0"
         style={{ backgroundColor: "#181818" }}
       >
-        <div className="w-full mx-auto max-w-5xl flex items-center justify-center mb-4">
-          <Chronos />
-          <h1 className="font-bold text-2xl ml-4">ChronoJudge</h1>
-        </div>
-
-        <div className="w-full mx-auto max-w-5xl">
-          <h1 className="text-white font-bold mb-2">Enter your code here</h1>
-          <Editor
-            mode="java"
-            style={{ width: "100%", borderRadius: "1rem" }}
-            onChange={(code) => setCode(code)}
-            value={code}
-          />
-        </div>
+        <Header />
+        <JavaEditor code={code} setCode={setCode} />
         <div className="w-full mx-auto max-w-5xl mb-4 flex justify-between mt-2">
           <Checkbox onChange={(e) => setMultiSubmit(e.target.checked)}>
             Check all testcases.
@@ -180,7 +176,7 @@ const Home: NextPage = () => {
               readOnly={multiSubmit}
               value={
                 multiSubmit
-                  ? "ChronoJudge is in multi-submit mode. Input is currently locked."
+                  ? "ChronoJudge is in multi-testcase mode. Input is currently locked."
                   : input
               }
               onChange={(e) => setInput(e)}
@@ -195,7 +191,7 @@ const Home: NextPage = () => {
                 maxHeight: "16rem",
                 borderRadius: "0.5rem",
               }}
-              value={result?.output?.stdout}
+              value={result?.output?.stdout || result?.output?.stderr}
               readOnly={true}
             />
           </div>
@@ -204,15 +200,32 @@ const Home: NextPage = () => {
         <div className="mt-2 max-w-5xl w-full mx-auto flex justify-end">
           <Button
             onClick={
-              multiSubmit
-                ? () => onMultiSubmit(allTestCases, code, handleMultiSubmit)
-                : () => onSubmit(input, output, code, setResult)
+              (!submitting &&
+                (multiSubmit
+                  ? () =>
+                      onMultiSubmit(
+                        allTestCases,
+                        code,
+                        handleMultiSubmit,
+                        setSubmitting
+                      )
+                  : () =>
+                      onSubmit(
+                        input,
+                        output,
+                        code,
+                        setResult,
+                        setSubmitting
+                      ))) ||
+              undefined
             }
+            className={`${submitting && "opacity-50"}`}
           >
             Submit
           </Button>
         </div>
       </div>
+      <Footer />
     </>
   );
 };
