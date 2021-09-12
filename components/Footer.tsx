@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSocketContext } from "./hooks/useSocket";
+import Link from "./Link";
 
 const Footer = () => {
   const socket = useSocketContext();
@@ -39,17 +40,11 @@ const Footer = () => {
           <p>Server CPU Usage: {serverState.cpuUsage}%</p>
         </div>
         <div className="flex space-x-8 text-sm select-none items-center">
-          <a className="transition duration-300 text-blue-400 ml-1 hover:text-blue-500 cursor-pointer">
-            Credits
-          </a>
-          <a
-            href="https://github.com/Meta502/chronojudge"
-            className="transition duration-300 text-blue-400 ml-1 hover:text-blue-500 cursor-pointer"
-            target="_blank"
-            rel="noreferrer"
-          >
+          <Link href="/">Home</Link>
+          <Link href="/credits">Credits</Link>
+          <Link target="_blank" href="https://github.com/Meta502/chronojudge">
             Repository
-          </a>
+          </Link>
         </div>
       </div>
     </div>
