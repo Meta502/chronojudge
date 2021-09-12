@@ -79,6 +79,7 @@ const Home: NextPage = () => {
   React.useEffect(() => {
     if (currentProblemSet) {
       setTestCases([]);
+      setSubmitting(true);
       fetch(`${baseUrl}/${currentProblemSet}/num.json`, { cache: "no-cache" })
         .then((res) => res.json())
         .then((item: { numberOfCases: number; timeLimit: number }) => {
@@ -90,12 +91,16 @@ const Home: NextPage = () => {
           );
           setCurrentTimeLimit(item.timeLimit);
           setCurrentTestCase("");
+        })
+        .finally(() => {
+          setSubmitting(false);
         });
     }
   }, [currentProblemSet]);
 
   React.useEffect(() => {
     if (currentProblemSet && currentTestCase) {
+      setSubmitting(true);
       fetch(
         `${baseUrl}/${currentProblemSet}/in_${pad(currentTestCase, 2)}.txt`,
         {
@@ -112,7 +117,8 @@ const Home: NextPage = () => {
         }
       )
         .then((res) => res.text())
-        .then((text) => setOutput(text));
+        .then((text) => setOutput(text))
+        .finally(() => setSubmitting(false));
     }
   }, [currentTestCase, currentProblemSet]);
 
