@@ -56,7 +56,7 @@ const Home: NextPage = () => {
       message: "",
       output: {
         stdout:
-          `Execution Time Limit: ${currentTimeLimit}\n` +
+          `Execution Time Limit: ${currentTimeLimit}ms\n` +
           result
             .map(
               (item: any, index: number) => `TC #${index + 1}: ${item?.message}`
