@@ -6,6 +6,7 @@ import {
   ColorModeProvider,
   ColorModeOptions,
 } from "@chakra-ui/react";
+import { SocketProvider } from "../components/hooks/useSocket";
 
 import { Toaster } from "react-hot-toast";
 
@@ -20,7 +21,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Toaster position="bottom-left" />
       <ChakraProvider>
         <ColorModeProvider options={config}>
-          <Component {...pageProps} />
+          <SocketProvider>
+            <Component {...pageProps} />
+          </SocketProvider>
         </ColorModeProvider>
       </ChakraProvider>
     </>

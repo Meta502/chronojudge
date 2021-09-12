@@ -1,12 +1,11 @@
 import type { NextPage } from "next";
 
-import React from "react";
+import React, { useEffect } from "react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 
-import { Button, Checkbox, Kbd } from "@chakra-ui/react";
+import { Button, Checkbox } from "@chakra-ui/react";
 
-import Chronos from "../components/Chronos";
 import Dropdown from "../components/Dropdown";
 import RunStatus from "../components/RunStatus";
 
