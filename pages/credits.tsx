@@ -17,37 +17,36 @@ const Credits: React.FC = () => {
       >
         <Header />
         <div
-          className="max-w-5xl mx-auto w-full p-6 rounded-xl"
+          className="max-w-5xl mx-auto w-full p-6 rounded-xl space-y-4"
           style={{ backgroundColor: "#222222" }}
         >
-          <h1 className="font-bold">Credits:</h1>
-          <p>
-            Developer:{" "}
-            <Link target="_blank" href="https://github.com/Meta502">
-              @Meta502
-            </Link>
-          </p>
-          <p>
-            Initial test cases for Public Test:{" "}
-            <Link target="_blank" href="https://github.com/Hzzkygcs">
-              @Hzzkygcs
-            </Link>
-          </p>
-          <p>
-            Original idea and output processing code was based off AlghiJudge
-            created by
-            <Link target="_blank" href="https://github.com/darklordace">
-              @darklordace
-            </Link>{" "}
-            (Kak Firdaus Al-Ghifari).
-          </p>
-        </div>
-        <div
-          className="max-w-5xl mx-auto w-full p-6 rounded-xl"
-          style={{ backgroundColor: "#222222" }}
-        >
-          <h1 className="font-bold">Test Case Contributors:</h1>
-          <p>Coming Soon!</p>
+          <div>
+            <h1 className="font-bold">Test Case Contributors:</h1>
+            <p>Coming Soon!</p>
+          </div>
+          <div>
+            <h1 className="font-bold">Credits:</h1>
+            <p>
+              Developer:
+              <Link target="_blank" href="https://github.com/Meta502">
+                @Meta502
+              </Link>
+            </p>
+            <p>
+              Initial test cases for Public Test:
+              <Link target="_blank" href="https://github.com/Hzzkygcs">
+                @Hzzkygcs
+              </Link>
+            </p>
+            <p>
+              Original idea and output processing code was based off AlghiJudge
+              created by
+              <Link target="_blank" href="https://github.com/darklordace">
+                @darklordace
+              </Link>{" "}
+              (Kak Firdaus Al-Ghifari).
+            </p>
+          </div>
         </div>
       </div>
       <Footer />
