@@ -22,7 +22,7 @@ export function useSocket(url: string) {
 export const SocketContext = createContext<Socket | null>(null);
 
 export const SocketProvider: React.FC = ({ children }) => {
-  const socket = useSocket(`${process.env.NEXT_PUBLIC_API_URL}`);
+  const socket = useSocket(`${process.env.NEXT_PUBLIC_WEBSOCKET_URL}`);
 
   return (
     <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>
