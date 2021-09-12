@@ -10,7 +10,8 @@ const Footer = () => {
 
   useEffect(() => {
     if (socket) {
-      const interval = setInterval(() => socket.emit("get-status"), 5000);
+      socket.emit("get-status");
+      const interval = setInterval(() => socket.emit("get-status"), 2500);
       socket.on("status", (data) => {
         setServerState(data);
       });

@@ -55,11 +55,13 @@ const Home: NextPage = () => {
     setResult({
       message: "",
       output: {
-        stdout: result
-          .map(
-            (item: any, index: number) => `TC #${index + 1}: ${item?.message}`
-          )
-          .join("\n"),
+        stdout:
+          `Execution Time Limit: ${currentTimeLimit}\n` +
+          result
+            .map(
+              (item: any, index: number) => `TC #${index + 1}: ${item?.message}`
+            )
+            .join("\n"),
       },
     });
   };
