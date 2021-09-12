@@ -6,7 +6,7 @@ export function useSocket(url: string) {
   const [socket, setSocket] = useState<Socket | null>(null);
 
   useEffect(() => {
-    const socketIo = io(url, { path: "/status" });
+    const socketIo = io(url, { path: process.env.WEBSOCKET_PATH });
 
     setSocket(socketIo);
 
