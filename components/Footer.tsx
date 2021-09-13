@@ -32,9 +32,13 @@ const Footer = () => {
               <span
                 className={`w-2 h-2 mr-1 rounded-full ${
                   serverState.status === "Alive" && "bg-green-500"
-                } ${serverState.status === "Down" && "bg-red-500"}`}
+                } ${serverState.status === "Down" && "bg-red-500"} ${
+                  serverState.status === "High Load"
+                } bg-yellow-500`}
               ></span>
-              {serverState.status}
+              {serverState.status}{" "}
+              {serverState.status === "High Load" &&
+                "(Results may be inaccurate)."}
             </span>
           </p>
           <p>Server CPU Usage: {serverState.cpuUsage}%</p>
