@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Button } from "@chakra-ui/button";
-import { Status } from "./RunStatus";
+import { Status } from "../General/RunStatus";
 
 const MultiSubmitOutput: React.FC<{
   multiResult: any;

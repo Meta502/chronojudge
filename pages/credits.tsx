@@ -1,8 +1,8 @@
 import React from "react";
 import Head from "next/head";
-import Header from "../components/Header";
-import Link from "../components/Link";
-import Footer from "../components/Footer";
+import Header from "../components/General/Header";
+import Link from "../components/General/Link";
+import Footer from "../components/General/Footer";
 
 const Credits: React.FC = () => {
   return (

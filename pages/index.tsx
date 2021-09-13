@@ -6,26 +6,25 @@ import Head from "next/head";
 
 import { Button, Checkbox } from "@chakra-ui/react";
 
-import Dropdown from "../components/Dropdown";
-import RunStatus from "../components/RunStatus";
+import Dropdown from "../components/General/Dropdown";
+import RunStatus from "../components/General/RunStatus";
 
 import onSubmit from "../components/handlers/onSubmit";
 import getAllTestcases from "../components/handlers/getAllTestcases";
 
 import onMultiSubmit from "../components/handlers/onMultiSubmit";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
+import Footer from "../components/General/Footer";
+import Header from "../components/General/Header";
 
-import MultiSubmitOutput from "../components/MultiSubmitOutput";
-import MultiSubmitModal from "../components/MultiSubmitModal";
+import { MultiSubmitModal, MultiSubmitOutput } from "../components/MultiSubmit";
 
 const baseUrl = "https://raw.githubusercontent.com/Hzzkygcs/SDA/master/";
 
-const Editor = dynamic(import("../components/Editor"), {
+const Editor = dynamic(import("../components/Editors/Editor"), {
   ssr: false,
 });
 
-const JavaEditor = dynamic(import("../components/JavaEditor"), {
+const JavaEditor = dynamic(import("../components/Editors/JavaEditor"), {
   ssr: false,
 });
 

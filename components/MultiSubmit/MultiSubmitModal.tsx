@@ -11,11 +11,11 @@ import {
 import dynamic from "next/dynamic";
 import React from "react";
 
-const DiffEditor = dynamic(import("./DiffEditor"), {
+const DiffEditor = dynamic(import("../Editors/DiffEditor"), {
   ssr: false,
 });
 
-const Editor = dynamic(import("./Editor"), {
+const Editor = dynamic(import("../Editors/Editor"), {
   ssr: false,
 });
 

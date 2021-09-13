@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSocketContext } from "./hooks/useSocket";
+import { useSocketContext } from "../hooks/useSocket";
 import Link from "./Link";
 
 const Footer = () => {
