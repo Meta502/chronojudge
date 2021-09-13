@@ -30,7 +30,7 @@ const MultiSubmitOutput: React.FC<{
               Test Case #{index + 1}:{" "}
               <Status value={item?.message} multiSubmit={false} />
             </div>
-            {item?.message !== "AC" && (
+            {item.message !== "AC" && (
               <Button onClick={() => setResultIndex(index)}>Details</Button>
             )}{" "}
           </div>

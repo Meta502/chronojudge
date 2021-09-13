@@ -171,7 +171,7 @@ const Home: NextPage = () => {
             <div>
               <p>Checking code against all testcases.</p>
               <a
-                href="https://github.com/Meta502/chronojudge/tree/main/problem_sets"
+                href="https://github.com/Hzzkygcs/SDA/tree/master/"
                 className="hover:underline font-bold"
                 target="_blank"
                 rel="noreferrer"
