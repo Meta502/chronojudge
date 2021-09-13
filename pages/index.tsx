@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 
@@ -15,6 +15,9 @@ import getAllTestcases from "../components/handlers/getAllTestcases";
 import onMultiSubmit from "../components/handlers/onMultiSubmit";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
+
+import MultiSubmitOutput from "../components/MultiSubmitOutput";
+import MultiSubmitModal from "../components/MultiSubmitModal";
 
 const baseUrl = "https://raw.githubusercontent.com/Hzzkygcs/SDA/master/";
 
@@ -35,6 +38,7 @@ export function pad(num: number, size: number) {
 const Home: NextPage = () => {
   const [code, setCode] = React.useState("");
   const [result, setResult] = React.useState<any>({});
+  const [multiResult, setMultiResult] = React.useState<any>([]);
   const [problemSets, setProblemSets] = React.useState<any>([]);
   const [testCases, setTestCases] = React.useState<any[]>([]);
   const [multiSubmit, setMultiSubmit] = React.useState(false);
@@ -43,6 +47,7 @@ const Home: NextPage = () => {
   const [currentTestCase, setCurrentTestCase] = React.useState<any>();
   const [currentProblemSet, setCurrentProblemSet] = React.useState<any>("");
   const [currentTimeLimit, setCurrentTimeLimit] = React.useState<any>(0);
+  const [currentResultIndex, setCurrentResultIndex] = React.useState(-1);
 
   const [input, setInput] = React.useState("");
   const [output, setOutput] = React.useState("");
@@ -52,18 +57,7 @@ const Home: NextPage = () => {
   });
 
   const handleMultiSubmit = (result: any) => {
-    setResult({
-      message: "",
-      output: {
-        stdout:
-          `Execution Time Limit: ${currentTimeLimit}ms\n` +
-          result
-            .map(
-              (item: any, index: number) => `TC #${index + 1}: ${item?.message}`
-            )
-            .join("\n"),
-      },
-    });
+    setMultiResult(result);
   };
 
   // TODO: Migrate to SWR to simplify hooks.
@@ -135,6 +129,11 @@ const Home: NextPage = () => {
         <title>ChronoJudge</title>
         <link rel="icon" type="image/png" href="/logo.png" />
       </Head>
+      <MultiSubmitModal
+        result={currentResultIndex !== -1 && multiResult[currentResultIndex]}
+        currentResultIndex={currentResultIndex}
+        setCurrentResultIndex={setCurrentResultIndex}
+      />
       <div
         className="flex flex-col justify-center min-h-screen w-full h-full py-16 px-6 md:px-0"
         style={{ backgroundColor: "#181818" }}
@@ -196,17 +195,27 @@ const Home: NextPage = () => {
             />
           </div>
           <div>
-            <h1 className="text-white font-bold mb-2">Program Output:</h1>
-            <Editor
-              className="overflow-auto"
-              style={{
-                width: "100%",
-                maxHeight: "16rem",
-                borderRadius: "0.5rem",
-              }}
-              value={result?.output?.stdout || result?.output?.stderr}
-              readOnly={true}
-            />
+            <h1 className="text-white font-bold mb-2">
+              Program Output{" "}
+              {multiSubmit && "(Details might take awhile to load)"}:
+            </h1>
+            {!multiSubmit ? (
+              <Editor
+                className="overflow-auto"
+                style={{
+                  width: "100%",
+                  maxHeight: "16rem",
+                  borderRadius: "0.5rem",
+                }}
+                value={result?.output?.stdout || result?.output?.stderr}
+                readOnly={true}
+              />
+            ) : (
+              <MultiSubmitOutput
+                multiResult={multiResult}
+                setResultIndex={setCurrentResultIndex}
+              />
+            )}
           </div>
         </div>
         <RunStatus multiSubmit={multiSubmit} result={result} />

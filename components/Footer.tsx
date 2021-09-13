@@ -29,11 +29,11 @@ const Footer = () => {
           <p className="flex space-x-2">
             <span>Status:</span>
             <span className="flex items-center">
-              <div
+              <span
                 className={`w-2 h-2 mr-1 rounded-full ${
                   serverState.status === "Alive" && "bg-green-500"
                 } ${serverState.status === "Down" && "bg-red-500"}`}
-              ></div>
+              ></span>
               {serverState.status}
             </span>
           </p>

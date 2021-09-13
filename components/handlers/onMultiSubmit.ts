@@ -24,6 +24,7 @@ const onMultiSubmit = (
   }
 
   setSubmitting(true);
+  setResult([]);
   toast.promise(
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/code/multi`, {
       method: "POST",

@@ -1,6 +1,6 @@
 import React from "react";
 
-const Status: React.FC<{ value: string; multiSubmit: boolean }> = ({
+export const Status: React.FC<{ value: string; multiSubmit: boolean }> = ({
   value,
   multiSubmit,
 }) => {

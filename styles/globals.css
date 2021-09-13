@@ -40,3 +40,10 @@ a {
 ::-webkit-scrollbar-thumb:hover {
   background: #222;
 }
+
+.codeMarker {
+  background: #8f3333;
+  opacity: "0.25";
+  position: absolute;
+  z-index: 20;
+}
