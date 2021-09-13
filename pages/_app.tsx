@@ -2,7 +2,6 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import {
   ChakraProvider,
-  ColorModeContext,
   ColorModeProvider,
   ColorModeOptions,
 } from "@chakra-ui/react";
@@ -18,7 +17,7 @@ const config = {
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
-      <Toaster position="bottom-left" />
+      <Toaster position="bottom-center" />
       <ChakraProvider>
         <ColorModeProvider options={config}>
           <SocketProvider>
