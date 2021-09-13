@@ -48,22 +48,39 @@ const MultiSubmitModal: React.FC<{
               value={result?.output?.input}
             />
           </div>
-          <div className="w-full">
-            <div className="flex justify-between">
-              <h1 className="font-semibold mb-2">Program Output</h1>
-              <h1 className="font-semibold mb-2">Expected Output</h1>
+          {result?.message === "WA" && (
+            <div className="w-full">
+              <div className="flex justify-between">
+                <h1 className="font-semibold mb-2">Program Output</h1>
+                <h1 className="font-semibold mb-2">Expected Output</h1>
+              </div>
+              <DiffEditor
+                style={{
+                  width: "100%!important",
+                  maxHeight: "16rem",
+                  borderRadius: "0.5rem",
+                }}
+                readOnly={true}
+                mode="text"
+                value={[result?.output?.stdout, result?.output?.output]}
+              />
             </div>
-            <DiffEditor
-              style={{
-                width: "100%!important",
-                maxHeight: "16rem",
-                borderRadius: "0.5rem",
-              }}
-              readOnly={true}
-              mode="text"
-              value={[result?.output?.stdout, result?.output?.output]}
-            />
-          </div>
+          )}
+          {(result?.message === "CLE" || result?.message === "RTE") && (
+            <div className="w-full">
+              <h1 className="font-semibold mb-2">Error</h1>
+              <Editor
+                style={{
+                  width: "100%!important",
+                  maxHeight: "8rem",
+                  borderRadius: "0.5rem",
+                }}
+                readOnly={true}
+                mode="text"
+                value={result?.output?.stderr}
+              />
+            </div>
+          )}
         </ModalBody>
 
         <ModalFooter>
