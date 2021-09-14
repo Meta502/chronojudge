@@ -18,7 +18,8 @@ import Header from "../components/General/Header";
 
 import { MultiSubmitModal, MultiSubmitOutput } from "../components/MultiSubmit";
 
-const baseUrl = "https://raw.githubusercontent.com/Hzzkygcs/SDA/master/";
+const baseUrl =
+  "https://raw.githubusercontent.com/Hzzkygcs/SDA/master/ChronoJudge";
 
 const Editor = dynamic(import("../components/Editors/Editor"), {
   ssr: false,
@@ -94,24 +95,24 @@ const Home: NextPage = () => {
   React.useEffect(() => {
     if (currentProblemSet && currentTestCase) {
       setSubmitting(true);
-      fetch(
-        `${baseUrl}/${currentProblemSet}/in_${pad(currentTestCase, 2)}.txt`,
-        {
-          cache: "no-cache",
-        }
-      )
-        .then((res) => res.text())
-        .then((text) => setInput(text));
-
-      fetch(
-        `${baseUrl}/${currentProblemSet}/out_${pad(currentTestCase, 2)}.txt`,
-        {
-          cache: "no-cache",
-        }
-      )
-        .then((res) => res.text())
-        .then((text) => setOutput(text))
-        .finally(() => setSubmitting(false));
+      Promise.all([
+        fetch(
+          `${baseUrl}/${currentProblemSet}/in_${pad(currentTestCase, 2)}.txt`,
+          {
+            cache: "no-cache",
+          }
+        )
+          .then((res) => res.text())
+          .then((text) => setInput(text)),
+        fetch(
+          `${baseUrl}/${currentProblemSet}/out_${pad(currentTestCase, 2)}.txt`,
+          {
+            cache: "no-cache",
+          }
+        )
+          .then((res) => res.text())
+          .then((text) => setOutput(text)),
+      ]).finally(() => setSubmitting(false));
     }
   }, [currentTestCase, currentProblemSet]);
 
@@ -121,10 +122,11 @@ const Home: NextPage = () => {
 
   React.useEffect(() => {
     if (multiSubmit) {
+      setSubmitting(true);
       setAllTestCases({ input: [], output: [] });
-      getAllTestcases(currentProblemSet, String(testCases.length)).then(
-        (items: any) => setAllTestCases(items)
-      );
+      getAllTestcases(currentProblemSet, String(testCases.length))
+        .then((items: any) => setAllTestCases(items))
+        .finally(() => setSubmitting(false));
     }
   }, [multiSubmit, currentProblemSet, testCases.length]);
 
