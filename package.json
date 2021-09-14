@@ -24,6 +24,7 @@
     "socket.io-client": "^4.2.0"
   },
   "devDependencies": {
+    "@types/gtag.js": "^0.0.7",
     "@types/react": "17.0.20",
     "autoprefixer": "^10.3.4",
     "eslint": "7.32.0",

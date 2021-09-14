@@ -20,34 +20,41 @@ const onSubmit = (
     message: "Loading...",
   });
   setSubmitting(true);
-  toast.promise(
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/code/submit`, {
-      method: "POST",
-      body: JSON.stringify({
-        code,
-        input,
-        output,
-      }),
-      headers: new Headers({
-        "Content-Type": "application/json",
-      }),
-    })
-      .then((item) => item.json())
-      .then((item) => setResult(item))
-      .finally(() => setSubmitting(false)),
-    {
-      loading: "Submitting...",
-      success: "Finished testing your code!",
-      error: "An error occurred in ChronoJudge.",
-    },
-    {
-      style: {
-        borderRadius: "10px",
-        background: "#333",
-        color: "#fff",
+  toast
+    .promise(
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/code/submit`, {
+        method: "POST",
+        body: JSON.stringify({
+          code,
+          input,
+          output,
+        }),
+        headers: new Headers({
+          "Content-Type": "application/json",
+        }),
+      })
+        .then((item) => item.json())
+        .then((item) => setResult(item))
+        .finally(() => setSubmitting(false)),
+      {
+        loading: "Submitting...",
+        success: "Finished testing your code!",
+        error: "An error occurred in ChronoJudge.",
       },
-    }
-  );
+      {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+      }
+    )
+    .finally(() => {
+      window?.gtag?.("event", "code_submit", {
+        event_category: "code",
+        event_label: "Single Code Submission",
+      });
+    });
 };
 
 export default onSubmit;
