@@ -42,8 +42,9 @@ const Footer = () => {
                 "(results may be inaccurate)."}
             </span>
           </p>
-          <p>Server: {serverState.server}</p>
-          <p>Server CPU Usage: {serverState.cpuUsage}%</p>
+          <p>
+            Server: {serverState.server} ({serverState.cpuUsage}%)
+          </p>
         </div>
         <div className="flex space-x-8 text-sm select-none items-center">
           <Link href="/">Home</Link>
