@@ -7,6 +7,7 @@ const Footer = () => {
   const [serverState, setServerState] = useState({
     status: "Down",
     cpuUsage: 0,
+    server: "",
   });
 
   useEffect(() => {
@@ -21,7 +22,7 @@ const Footer = () => {
   }, [socket]);
   return (
     <div
-      className="w-full flex items-center bg-white h-12"
+      className="w-full flex items-center bg-white h-16"
       style={{ backgroundColor: "#242424" }}
     >
       <div className="w-full px-8 flex justify-between items-center">
@@ -33,14 +34,15 @@ const Footer = () => {
                 className={`w-2 h-2 mr-1 rounded-full ${
                   serverState.status === "Alive" && "bg-green-500"
                 } ${serverState.status === "Down" && "bg-red-500"} ${
-                  serverState.status === "High Load"
-                } bg-yellow-500`}
+                  serverState.status === "High Load" && "bg-yellow-500"
+                }`}
               ></span>
               {serverState.status}{" "}
               {serverState.status === "High Load" &&
-                "(Results may be inaccurate)."}
+                "(results may be inaccurate)."}
             </span>
           </p>
+          <p>Server: {serverState.server}</p>
           <p>Server CPU Usage: {serverState.cpuUsage}%</p>
         </div>
         <div className="flex space-x-8 text-sm select-none items-center">
