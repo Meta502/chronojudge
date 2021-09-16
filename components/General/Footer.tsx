@@ -7,7 +7,7 @@ const Footer = () => {
   const [serverState, setServerState] = useState({
     status: "Down",
     cpuUsage: 0,
-    server: "",
+    server: "Not Connected",
   });
 
   useEffect(() => {
