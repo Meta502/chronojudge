@@ -1,6 +1,7 @@
 import { pad } from "../../pages";
 
-const baseUrl = "https://raw.githubusercontent.com/Hzzkygcs/SDA/master";
+const baseUrl =
+  "https://raw.githubusercontent.com/Hzzkygcs/SDA/master/ChronoJudge";
 
 const getAllTestcases = async (problemSet: string, numberOfCases: string) => {
   const inputRequests = [...new Array(Number(numberOfCases))].map(
