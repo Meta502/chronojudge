@@ -75,6 +75,7 @@ const onMultiSubmit = (
         event_category: "code",
         event_label: "Single Code Submission",
       });
+      toast("NOTE: TC belum tentu mengcover seluruh kemungkinan.");
     });
 };
 
