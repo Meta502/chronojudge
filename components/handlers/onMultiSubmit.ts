@@ -75,7 +75,14 @@ const onMultiSubmit = (
         event_category: "code",
         event_label: "Single Code Submission",
       });
-      toast("NOTE: TC belum tentu mengcover seluruh kemungkinan.");
+      toast("NOTE: TC belum tentu mengcover seluruh kemungkinan.", {
+        duration: 7500,
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+      });
     });
 };
 
