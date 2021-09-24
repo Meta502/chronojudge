@@ -1,4 +1,5 @@
 import toast from "react-hot-toast";
+import { gzip } from "pako";
 
 const onMultiSubmit = (
   cases: { input: string[]; output: string[] },
@@ -25,20 +26,30 @@ const onMultiSubmit = (
 
   setSubmitting(true);
   setResult([]);
+
+  const sendRequest = async () => {
+    const content = await gzip(
+      JSON.stringify({
+        code,
+        input: cases.input,
+        output: cases.output,
+        timeLimit,
+      }),
+      { to: "string" }
+    );
+
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/code/multi`, {
+      method: "POST",
+      body: content,
+      headers: new Headers({
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json",
+      }),
+    });
+  };
   toast
     .promise(
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/code/multi`, {
-        method: "POST",
-        body: JSON.stringify({
-          code,
-          input: cases.input,
-          output: cases.output,
-          timeLimit,
-        }),
-        headers: new Headers({
-          "Content-Type": "application/json",
-        }),
-      })
+      sendRequest()
         .then((item) => {
           if (item.status === 404) throw Error();
           return item.json();
