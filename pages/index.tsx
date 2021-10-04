@@ -218,14 +218,37 @@ const Home: NextPage = () => {
                 readOnly={true}
               />
             ) : (
-              <MultiSubmitOutput
-                multiResult={multiResult}
-                setResultIndex={setCurrentResultIndex}
-              />
+              <>
+                <MultiSubmitOutput
+                  multiResult={multiResult}
+                  setResultIndex={setCurrentResultIndex}
+                />
+              </>
             )}
           </div>
         </div>
-        <RunStatus multiSubmit={multiSubmit} result={result} />
+        <div className="flex justify-between mx-auto max-w-5xl w-full">
+          <RunStatus multiSubmit={multiSubmit} result={result} />
+          <div className="mt-2 flex justify-between mb-2 font-bold">
+            {multiSubmit ? (
+              <p>
+                Total Execution Time:{" "}
+                {multiResult
+                  .reduce(
+                    (acc: number, curr: any) => acc + Number(curr.time),
+                    0
+                  )
+                  .toPrecision(4)}
+                s
+              </p>
+            ) : (
+              <p>
+                Execution Time:{" "}
+                {isNaN(result?.time) ? 0 : Number(result?.time).toPrecision(4)}s
+              </p>
+            )}
+          </div>
+        </div>
         <div className="mt-2 max-w-5xl w-full mx-auto flex justify-end">
           <Button
             onClick={

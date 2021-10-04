@@ -28,11 +28,22 @@ const MultiSubmitOutput: React.FC<{
           >
             <div className="font-bold">
               Test Case #{index + 1}:{" "}
-              <Status value={item?.message} multiSubmit={false} />
+              <Status
+                value={item?.message}
+                time={item?.time}
+                multiSubmit={false}
+              />
             </div>
-            {item.message !== "AC" && (
-              <Button onClick={() => setResultIndex(index)}>Details</Button>
-            )}{" "}
+            <div className="flex items-center space-x-4">
+              {item.message == "AC" && (
+                <span className="ml-2 font-semibold">
+                  {item?.time !== undefined && `${item.time}s`}
+                </span>
+              )}
+              {item.message !== "AC" && (
+                <Button onClick={() => setResultIndex(index)}>Details</Button>
+              )}{" "}
+            </div>
           </div>
         );
       })}
