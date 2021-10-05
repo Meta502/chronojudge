@@ -52,6 +52,7 @@ const Footer = () => {
           <Link target="_blank" href="https://github.com/Meta502/chronojudge">
             Repository
           </Link>
+          <Link href="/donate">Donate</Link>
         </div>
       </div>
     </div>

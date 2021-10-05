@@ -8,6 +8,7 @@ import { Button, Checkbox } from "@chakra-ui/react";
 
 import Dropdown from "../components/General/Dropdown";
 import RunStatus from "../components/General/RunStatus";
+import donationToast from "../components/Donate/DonationToast";
 
 import onSubmit from "../components/handlers/onSubmit";
 import getAllTestcases from "../components/handlers/getAllTestcases";
@@ -64,10 +65,15 @@ const Home: NextPage = () => {
 
   React.useEffect(() => {
     const code = localStorage.getItem("lastCode");
+    const bannerShown = localStorage.getItem("bannerShown");
     fetch(`${baseUrl}/index.txt`)
       .then((res) => res.text())
       .then((text) => setProblemSets(text.split("\n")));
     if (code) setCode(code);
+    if (!bannerShown) {
+      donationToast();
+      localStorage.setItem("bannerShown", "true");
+    }
   }, []);
 
   React.useEffect(() => {
