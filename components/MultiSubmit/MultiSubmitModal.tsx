@@ -48,7 +48,7 @@ const MultiSubmitModal: React.FC<{
               value={result?.output?.input}
             />
           </div>
-          {result?.message === "WA" && (
+          {(result?.message === "WA" || result?.message === "WA w/ TLE") && (
             <div className="w-full">
               <div className="flex justify-between">
                 <h1 className="font-semibold mb-2">Program Output</h1>

@@ -33,7 +33,7 @@ const onMultiSubmit = (
         code,
         input: cases.input,
         output: cases.output,
-        timeLimit,
+        timeLimit: timeLimit,
       }),
       { to: "string" }
     );
