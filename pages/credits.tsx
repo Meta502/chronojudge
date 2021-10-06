@@ -21,21 +21,17 @@ const Credits: React.FC = () => {
           style={{ backgroundColor: "#222222" }}
         >
           <div>
-            <h1 className="font-bold">Test Case Contributors:</h1>
-            <p>Coming Soon!</p>
-          </div>
-          <div>
             <h1 className="font-bold">Credits:</h1>
+            <p>
+              Test Cases:
+              <Link target="_blank" href="https://github.com/Hzzkygcs">
+                @Hzzkygcs
+              </Link>
+            </p>
             <p>
               Developer:
               <Link target="_blank" href="https://github.com/Meta502">
                 @Meta502
-              </Link>
-            </p>
-            <p>
-              Initial test cases for Public Test:
-              <Link target="_blank" href="https://github.com/Hzzkygcs">
-                @Hzzkygcs
               </Link>
             </p>
             <p>

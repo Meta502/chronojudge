@@ -13,7 +13,8 @@ const donationToast = () => {
         <div className="flex items-start">
           <div className="flex-1">
             <p className="text-md font-medium text-white">
-              ChronoJudge needs donations.
+              ChronoJudge is now fully funded! Thank you to everyone who
+              donated.
             </p>
             <p className="-ml-1 mt-1 text-sm text-white">
               <Link href="/donate">Click here</Link> for more info.
