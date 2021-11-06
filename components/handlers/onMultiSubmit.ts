@@ -74,7 +74,13 @@ const onMultiSubmit = (
     .finally(() => {
       setSubmitting(false);
       toast.dismiss(loadingToast);
-      toast.success("Finished testing your code!");
+      toast.success("Finished testing your code!", {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+      });
       window?.gtag?.("event", "code_submit", {
         event_category: "code",
         event_label: "Single Code Submission",
