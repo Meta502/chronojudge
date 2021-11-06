@@ -6,7 +6,8 @@ const onMultiSubmit = (
   code: string,
   timeLimit: number,
   setResult: (a: any) => void,
-  setSubmitting: (a: boolean) => void
+  setSubmitting: (a: boolean) => void,
+  socket
 ) => {
   if (
     !cases.input.length ||
@@ -47,30 +48,29 @@ const onMultiSubmit = (
       }),
     });
   };
-  toast
-    .promise(
-      sendRequest()
-        .then((item) => {
-          if (item.status === 404) throw Error();
-          return item.json();
-        })
-        .then((item) => setResult(item))
-        .finally(() => setSubmitting(false))
-        .catch(() => undefined),
-      {
-        loading: "Submitting...",
-        success: "Finished testing your code!",
-        error: "An error occurred in ChronoJudge.",
+
+  const loadingToast = toast.loading(
+    `Submitting... (0/${cases.input.length})`,
+    {
+      style: {
+        borderRadius: "10px",
+        background: "#333",
+        color: "#fff",
       },
-      {
-        style: {
-          borderRadius: "10px",
-          background: "#333",
-          color: "#fff",
-        },
+    }
+  );
+  sendRequest()
+    .then((item) => {
+      if (item.status === 404) {
+        toast.error("An error occurred in ChronoJudge", { id: loadingToast });
+        throw Error();
       }
-    )
+      return item.json();
+    })
+    .then((item) => setResult(item))
     .finally(() => {
+      setSubmitting(false);
+      toast.success("Finished testing your code!");
       window?.gtag?.("event", "code_submit", {
         event_category: "code",
         event_label: "Single Code Submission",
@@ -83,7 +83,19 @@ const onMultiSubmit = (
           color: "#fff",
         },
       });
+    })
+    .catch(() => undefined);
+
+  socket.on("progress", (data: any) => {
+    toast.loading(`Submitting... (0/${data.case})`, {
+      style: {
+        borderRadius: "10px",
+        background: "#333",
+        color: "#fff",
+      },
+      id: loadingToast,
     });
+  });
 };
 
 export default onMultiSubmit;

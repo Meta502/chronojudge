@@ -18,6 +18,7 @@ import Footer from "../components/General/Footer";
 import Header from "../components/General/Header";
 
 import { MultiSubmitModal, MultiSubmitOutput } from "../components/MultiSubmit";
+import { useSocketContext } from "../components/hooks/useSocket";
 
 const baseUrl =
   "https://raw.githubusercontent.com/Hzzkygcs/SDA/master/ChronoJudge";
@@ -49,6 +50,8 @@ const Home: NextPage = () => {
   const [currentProblemSet, setCurrentProblemSet] = React.useState<any>("");
   const [currentTimeLimit, setCurrentTimeLimit] = React.useState<any>(0);
   const [currentResultIndex, setCurrentResultIndex] = React.useState(-1);
+
+  const socket = useSocketContext();
 
   const [input, setInput] = React.useState("");
   const [output, setOutput] = React.useState("");
@@ -266,7 +269,8 @@ const Home: NextPage = () => {
                         code,
                         currentTimeLimit,
                         handleMultiSubmit,
-                        setSubmitting
+                        setSubmitting,
+                        socket
                       )
                   : () =>
                       onSubmit(
