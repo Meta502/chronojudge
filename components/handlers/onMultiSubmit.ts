@@ -73,7 +73,7 @@ const onMultiSubmit = (
     .then((item) => setResult(item))
     .finally(() => {
       setSubmitting(false);
-      toast.success("Finished testing your code!");
+      toast.success("Finished testing your code!", { id: loadingToast });
       window?.gtag?.("event", "code_submit", {
         event_category: "code",
         event_label: "Single Code Submission",
@@ -91,7 +91,7 @@ const onMultiSubmit = (
 
   socket.on("progress", (data: any) => {
     if (data.id === runId) {
-      toast.loading(`Submitting... (0/${data.case})`, {
+      toast.loading(`Submitting... (${data.case}/${cases.input.length})`, {
         style: {
           borderRadius: "10px",
           background: "#333",
