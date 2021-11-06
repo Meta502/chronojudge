@@ -10,6 +10,7 @@ const onMultiSubmit = (
   setSubmitting: (a: boolean) => void,
   socket: any
 ) => {
+  const runId = Math.floor(Math.random() * 1000000000);
   if (
     !cases.input.length ||
     !cases.output.length ||
@@ -36,6 +37,7 @@ const onMultiSubmit = (
         input: cases.input,
         output: cases.output,
         timeLimit: timeLimit,
+        id: runId,
       }),
       { to: "string" }
     );
@@ -88,14 +90,16 @@ const onMultiSubmit = (
     .catch(() => undefined);
 
   socket.on("progress", (data: any) => {
-    toast.loading(`Submitting... (0/${data.case})`, {
-      style: {
-        borderRadius: "10px",
-        background: "#333",
-        color: "#fff",
-      },
-      id: loadingToast,
-    });
+    if (data.id === runId) {
+      toast.loading(`Submitting... (0/${data.case})`, {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+        id: loadingToast,
+      });
+    }
   });
 };
 
