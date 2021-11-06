@@ -1,5 +1,6 @@
 import toast from "react-hot-toast";
 import { gzip } from "pako";
+import { Socket } from "socket.io-client";
 
 const onMultiSubmit = (
   cases: { input: string[]; output: string[] },
@@ -7,7 +8,7 @@ const onMultiSubmit = (
   timeLimit: number,
   setResult: (a: any) => void,
   setSubmitting: (a: boolean) => void,
-  socket
+  socket: any
 ) => {
   if (
     !cases.input.length ||
