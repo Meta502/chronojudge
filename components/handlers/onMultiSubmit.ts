@@ -73,7 +73,8 @@ const onMultiSubmit = (
     .then((item) => setResult(item))
     .finally(() => {
       setSubmitting(false);
-      toast.success("Finished testing your code!", { id: loadingToast });
+      toast.dismiss(loadingToast);
+      toast.success("Finished testing your code!");
       window?.gtag?.("event", "code_submit", {
         event_category: "code",
         event_label: "Single Code Submission",
