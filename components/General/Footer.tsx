@@ -17,6 +17,9 @@ const Footer = () => {
       socket.on("status", (data) => {
         setServerState(data);
       });
+      socket.on("progress", (data) => {
+        console.log(data);
+      });
       return () => clearInterval(interval);
     }
   }, [socket]);
