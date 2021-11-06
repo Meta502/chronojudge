@@ -1,6 +1,5 @@
 import toast from "react-hot-toast";
 import { gzip } from "pako";
-import { Socket } from "socket.io-client";
 
 const onMultiSubmit = (
   cases: { input: string[]; output: string[] },
@@ -30,7 +29,6 @@ const onMultiSubmit = (
   setSubmitting(true);
   setResult([]);
 
-  socket.join(runId);
   const sendRequest = async () => {
     const content = await gzip(
       JSON.stringify({
@@ -73,7 +71,6 @@ const onMultiSubmit = (
     })
     .then((item) => setResult(item))
     .finally(() => {
-      socket.leave(runId);
       setSubmitting(false);
       toast.dismiss(loadingToast);
       toast.success("Finished testing your code!", {
@@ -99,14 +96,16 @@ const onMultiSubmit = (
     .catch(() => undefined);
 
   socket.on("progress", (data: any) => {
-    toast.loading(`Submitting (${data.case}/${cases.input.length})`, {
-      style: {
-        borderRadius: "10px",
-        background: "#333",
-        color: "#fff",
-      },
-      id: loadingToast,
-    });
+    if (data.id === runId) {
+      toast.loading(`Submitting... (${data.case}/${cases.input.length})`, {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+        id: loadingToast,
+      });
+    }
   });
 };
 
