@@ -9,7 +9,7 @@ const Header = () => (
       <h1 className="font-bold text-2xl ml-4">ChronoJudge</h1>
     </div>
     <p className="mx-auto font-semibold text-center">
-      Check out this program-based grader by HzzkyGcs (better for running large
+      Check out this program-based grader by Hzzkygcs (better for running large
       testcases)
       <br />
       <Link target="_blank" href="https://github.com/Hzzkygcs/SDA/releases/">
